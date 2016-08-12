@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -27,9 +26,9 @@
 					</div>
 					<div class="col-md-7 col-xs-7">
 						<div class="input-group">
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userAccountsForm" id="btnNew">New User Account</button>
-							<button type="button" class="btn btn-info" id="btnEdit">Edit</button>
-							<button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form_userAccount" id="button_create">New User Account</button>
+							<button type="button" class="btn btn-info" id="button_edit">Edit</button>
+							<button type="button" class="btn btn-danger" id="button_delete">Delete</button>
 						</div>
 					</div>
 				</div>
@@ -57,7 +56,7 @@
 	</div>
 	
 	<!-- User Account Form -->
-	<div id="userAccountForm" class="modal" role="dialog">
+	<div id="form_userAccount" class="modal" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header"><h4 id="title"></h4></div>
@@ -91,7 +90,7 @@
 				<div class="modal-footer">
 					<div class="input-group">
 						<button class="btn btn-primary">Submit</button>
-						<button class="btn btn-danger">Cancel</button>
+						<button class="btn btn-danger" data-dismiss="modal">Cancel</button>
 					</div>
 				</div>
 			</div>

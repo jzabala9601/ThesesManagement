@@ -27,9 +27,9 @@
 					</div>
 					<div class="col-md-7 col-xs-7">
 						<div class="input-group">
-							<button class="btn btn-primary" id="btnNew">New Adviser</button>
-							<button class="btn btn-info" id="btnEdit">Edit</button>
-							<button class="btn btn-danger" id="btnDelete">Delete</button>
+							<button class="btn btn-primary" id="button_create">New Adviser</button>
+							<button class="btn btn-info" id="button_edit">Edit</button>
+							<button class="btn btn-danger" id="button_delete">Delete</button>
 						</div>
 					</div>
 				</div>

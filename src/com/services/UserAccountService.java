@@ -129,13 +129,14 @@ public class UserAccountService {
 		
 		Connection connection = null;
 		try {
+			
 			connection = MySQLConnectionFactory.createConnection();
 			UserAccountDao dao = new UserAccountDao();
 			boolean usernameExists = dao.usernameExists(username, connection);
 			
 			JSONObject json = new JSONObject();
 			json.put("usernameExists", usernameExists);
-			response = Response.ok(json).build();
+			response = Response.ok(json, MediaType.APPLICATION_JSON_TYPE).build();
 			
 		} catch (ClassNotFoundException | IOException | SQLException | JSONException e) {
 			// TODO Auto-generated catch block
