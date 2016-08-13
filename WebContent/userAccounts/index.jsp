@@ -62,19 +62,22 @@
 				<div class="modal-header"><h4 id="title"></h4></div>
 				<div class="modal-body">
 				
-					<div class="form-group">
+					<div class="form-group has-feedback">
 						<label for="username">Username</label>
 						<input type="text" id="username" class="form-control" />
+						<span class="glyphicon form-control-feedback"></span>
 					</div>
 						
-					<div class="form-group">
+					<div class="form-group has-feedback">
 						<label for="username">Lastname</label>
 						<input type="text" id="lastname" class="form-control" />
+						<span class="glyphicon form-control-feedback"></span>
 					</div>
 					
-					<div class="form-group">
+					<div class="form-group has-feedback">
 						<label for="username">Firstname</label>
 						<input type="text" id="firstname" class="form-control" />
+						<span class="glyphicon form-control-feedback"></span>
 					</div>
 					
 					<div class="form-group">

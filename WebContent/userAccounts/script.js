@@ -19,7 +19,7 @@ $(document).ready(function(){
 
 	function clearForm(){
 		var $form = $("#form_userAccount");
-		$form.find("input").text("");
+		$form.find("input").val("");
 	}
 	
 	function setFormContent(options){
@@ -55,26 +55,46 @@ $(document).ready(function(){
 	function formHasValidData(){
 		var $form = $("#form_userAccount");
 		var fieldIds = ["#username", "#lastname", "#firstname"];
+		var hasValidData = true;
 		for(var a = 0; a < fieldIds.length; a++) {
 			if($form.find(fieldIds[a]).val().trim().length < 1){
-				return false;
+				$form.find(fieldIds[a]).parent().removeClass("has-success").addClass("has-error");
+				$form.find(fieldIds[a]).parent().find("span").removeClass("glyphicon-ok").addClass("glyphicon-remove");
+				hasValidData = false;
+			} else {
+				$form.find(fieldIds[a]).parent().removeClass("has-error").addClass("has-success");
+				$form.find(fieldIds[a]).parent().find("span").removeClass("glyphicon-remove").addClass("glyphicon-ok");
 			}
 		}
-		return true;
+		return hasValidData;
 	}
 	
 	function createUserAccount(userAccount) {
-		//check if username exists
 		$.ajax({
 			type: "GET",
-			url: "/ThesesManagement/rest/userAccounts/usernameExists?username=" & userAccount.username,
+			url: "/ThesesManagement/rest/userAccounts/usernameExists?username=" + userAccount.username,
 			success: function(responseData) {
-				alert("Response: " + JSON.stringify(responseData));
+				if(!responseData.usernameExists) {
+					$.ajax({
+						type: "POST",
+						contentType: "application/json",
+						data: JSON.stringify(userAccount),
+						url: "/ThesesManagement/rest/userAccounts/create",
+						success: function(responseData){
+							alert("show success dialog box: user account created");
+						},
+						error: function(jqXHR, errorThrown, textStatus){
+							alert("show error dialog box: Failed creating user account");
+						}
+					});
+				} else {
+					alert("show error dialog box: username exists");
+				}
 			},
 			error: function(jqXHR, errorThrown, textStatus) {
-				alert("show error dialog box");
+				alert("show error dialog box: Can't check if username exists");
 			}
-		})
+		});
 	}
 	
 	/**
