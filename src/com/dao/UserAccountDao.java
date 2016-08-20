@@ -1,5 +1,8 @@
 package com.dao;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -213,6 +216,34 @@ public class UserAccountDao implements IDao<UserAccount> {
 		resultSet.close();
 		statement.close();
 		return passwordIsCorrect;
+	}
+
+//	StringBuffer hexString = new StringBuffer();
+//	MessageDigest md = MessageDigest.getInstance("MD5");
+//	byte[] hash = md.digest();
+//
+//	for (int i = 0; i < hash.length; i++) {
+//	    if ((0xff & hash[i]) < 0x10) {
+//	        hexString.append("0"
+//	                + Integer.toHexString((0xFF & hash[i])));
+//	    } else {
+//	        hexString.append(Integer.toHexString(0xFF & hash[i]));
+//	    }
+//	}
+	
+	public String toMd5String(String content) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		StringBuffer buffer = new StringBuffer();
+		MessageDigest digest = MessageDigest.getInstance("MD5");
+		byte[] contentBytes = content.getBytes("UTF-8");
+		byte[] hash = digest.digest(contentBytes);
+		for(int a = 0; a < hash.length; a++){
+		    if ((0xff & hash[a]) < 0x10) {
+		    	buffer.append("0" + Integer.toHexString((0xFF & hash[a])));
+		    } else {
+		    	buffer.append(Integer.toHexString(0xFF & hash[a]));
+		    }
+		}
+		return buffer.toString();
 	}
 	
 }
