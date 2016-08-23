@@ -1,6 +1,7 @@
 package com.services;
 
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -99,6 +100,7 @@ public class UserAccountService {
 				if(dao.usernameExists(userAccount.getUsername(), connection)){
 					response = Response.serverError().entity("Username already exists").build();
 				}else{
+					userAccount.setPassword(dao.toMd5String("d3fp@55w0rd"));
 					dao.create(userAccount, connection);
 					connection.commit();
 					response = Response.ok(userAccount).build();			

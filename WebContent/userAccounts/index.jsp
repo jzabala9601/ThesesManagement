@@ -66,18 +66,21 @@
 						<label for="username">Username</label>
 						<input type="text" id="username" class="form-control" />
 						<span class="glyphicon form-control-feedback"></span>
+						<p class="text-danger"></p>
 					</div>
 						
 					<div class="form-group has-feedback">
 						<label for="username">Lastname</label>
 						<input type="text" id="lastname" class="form-control" />
 						<span class="glyphicon form-control-feedback"></span>
+						<p class="text-danger"></p>
 					</div>
 					
 					<div class="form-group has-feedback">
 						<label for="username">Firstname</label>
 						<input type="text" id="firstname" class="form-control" />
 						<span class="glyphicon form-control-feedback"></span>
+						<p class="text-danger"></p>
 					</div>
 					
 					<div class="form-group">
@@ -130,6 +133,7 @@
 			</div>
 		</div>
 	</div>
+<<<<<<< HEAD
 
 	<!-- Delete User Account Confirmation -->
 	<div id="confirmation_deleteUserAccount" class="modal" role="dialog">
@@ -151,8 +155,10 @@
 		</div>
 	</div>
 
+=======
+>>>>>>> origin/master
 	<%@ include file="../common/messageModal.html" %>
-	
+	<button type="button" id="button_showMessageBox" class="btn btn-primary">Show Message Box</button>	
 </body>
 <script type="text/javascript" src="script.js"></script>
 </html>
