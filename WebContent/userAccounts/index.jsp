@@ -35,7 +35,7 @@
 				<div class="container-fluid" style="height: 20px;"></div>
 				<div class="row col-md-12 col-xs-12">
 					<div class="container-fluid">
-						<table class="table table-condensed table-bordered" id="tblSearchResults">
+						<table class="table table-condensed table-bordered" id="table_searchResults">
 							<thead>
 								<tr>
 									<th class="col-md-5">Username</th>
@@ -125,6 +125,26 @@
 					<div class="input-group">
 						<button class="btn btn-primary">Change</button>
 						<button class="btn btn-danger">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Delete User Account Confirmation -->
+	<div id="confirmation_deleteUserAccount" class="modal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content alert alert-danger">
+				<div class="modal-header">
+					Confirm Delete
+				</div>
+				<div class="modal-body">
+					Delete this User Account?
+				</div>
+				<div class="modal-footer">
+					<div class="input-group">
+						<button type="button" class="btn btn-danger">Delete</button>
+						<button type="button" class="btn btn-default">Cancel</button>
 					</div>
 				</div>
 			</div>

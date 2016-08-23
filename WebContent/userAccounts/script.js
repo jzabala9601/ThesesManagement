@@ -96,6 +96,123 @@ $(document).ready(function(){
 			}
 		});
 	}
+
+	function search(value, pageNumber, itemsPerPage){
+		$.ajax({
+			type: "GET",
+			url: "/ThesesManagement/rest/userAccounts/count?value=" + value,
+			success: function(responseData){
+				var count = responseData.count;
+				if(count > 0){
+					$.ajax({
+						type: "GET",
+						url: "/ThesesManagement/rest/userAccounts/search?value=" + value + "&pageNumber=" + pageNumber + "&itemsPerPage=" + itemsPerPage,
+						success: function(responseData){
+							$("#button_edit").addClass("disabled");
+							$("#button_delete").addClass("disabled");
+							$("#table_searchResults tbody").empty();
+							var plottedRows = 0;
+							$.each(responseData, function(index, item){
+								
+								var usernameCell = $(document.createElement("td"));
+								$(usernameCell).text(item.username);
+								
+								var nameCell = $(document.createElement("td"));
+								$(nameCell).text(item.lastname + ", " + item.firstname + (item.middlename.length > 0 ? " " + item.middlename : ""));
+								
+								var row = $(document.createElement("tr"));
+								$(row).append(usernameCell);
+								$(row).append(nameCell);
+								$(row).attr("data-id", item.id);
+								$("#table_searchResults tbody").append(row);
+								plottedRows++;
+								
+							});
+							
+							var visibleButtonsCount = 7;
+							var totalPages = Math.ceil(count / itemsPerPage);
+							var startingPage = 1;
+							var endingPage = totalPages;
+							if(pageNumber > Math.ceil(visibleButtonsCount / 2)) {
+								startingPage = pageNumber - Math.floor(visibleButtonsCount / 2);
+							}
+							endingPage = startingPage + 6;
+							if(endingPage > totalPages) {
+								endingPage = totalPages;
+								startingPage = endingPage - 6;
+							}
+							if(startingPage < 1){
+								startingPage = 1;
+							}
+							
+							$(".pagination").empty();
+							
+							var toFirstPage = $(document.createElement("li"));
+							$(toFirstPage).attr("data-pagenumber", 1);
+							$(toFirstPage).attr("data-searchvalue", value);
+							$(toFirstPage).append("<a href='#'>&lt;&lt;</a>");
+							if(pageNumber == 1){
+								$(toFirstPage).addClass("disabled");
+							}
+							$(".pagination").append(toFirstPage);
+
+							var toPreviousPage = $(document.createElement("li"));
+							$(toPreviousPage).attr("data-pagenumber", pageNumber < 2 ? 1 : pageNumber - 1);
+							$(toPreviousPage).attr("data-searchvalue", value);
+							$(toPreviousPage).append("<a href='#'>&lt;</a>");
+							if(pageNumber == 1){
+								$(toPreviousPage).addClass("disabled");
+							}
+							$(".pagination").append(toPreviousPage);
+							
+							for(var currentNumber = startingPage; currentNumber <= endingPage; currentNumber++){
+								var listItem = $(document.createElement("li"));
+								$(listItem).attr("data-pagenumber", currentNumber);
+								$(listItem).attr("data-searchvalue", value);
+								if(currentNumber == pageNumber){
+									$(listItem).addClass("active");
+								}
+								$(listItem).append("<a href='#'>" + currentNumber + "</a>");
+								$(".pagination").append(listItem);
+							}
+							
+							var toNextPage = $(document.createElement("li"));
+							$(toNextPage).attr("data-pagenumber", pageNumber < totalPages ? pageNumber + 1 : pageNumber);
+							$(toNextPage).attr("data-searchvalue", value);
+							$(toNextPage).append("<a href='#'>&gt;</a>");
+							if(pageNumber == totalPages){
+								$(toNextPage).addClass("disabled");
+							}
+							$(".pagination").append(toNextPage);
+							
+							var toLastPage = $(document.createElement("li"));
+							$(toLastPage).attr("data-pagenumber", totalPages);
+							$(toLastPage).attr("data-searchvalue", value);
+							$(toLastPage).append("<a href='#'>&gt;&gt;</a>");
+							if(pageNumber == totalPages){
+								$(toLastPage).addClass("disabled");
+							}
+							$(".pagination").append(toLastPage);
+							
+						},
+						error: function(jqXHR, errorThrown, textStatus){
+							alert("Server Error: " + errorThrown);
+						}
+					});
+					
+				} else {
+					alert("Nothing found");
+				}
+			},
+			error: function(jqXHR, errorThrown, textStatus){
+				alert("Server Error: " + errorThrown);
+			}
+		});
+	}
+	
+	function showConfirmDelete(){
+		
+	}
 	
 	/**
 	 * End: Functions
@@ -111,6 +228,24 @@ $(document).ready(function(){
 		setFormChangePasswordButtonVisible(false);
 		setFormVisible(true);
 	})
+	
+	$("#button_edit").on("click", function(){
+
+	})
+	
+	$("#button_delete").on("click", function(){
+		var $dialog = $("#confirmation_deleteUserAccount");
+		$dialog.fadeIn();
+	})
+	
+	$("#confirmation_deleteUserAccount").find("button.btn-danger").on("click", function(){
+		alert("Delete selected user account");
+	});
+	
+	$("#confirmation_deleteUserAccount").find("button.btn-default").on("click", function(){
+		var $dialog = $("#confirmation_deleteUserAccount");
+		$dialog.fadeOut();
+	});
 	
 	$("#form_userAccount").find("button.btn-danger").on("click", function(){
 		var $form = $("#form_userAccount");
@@ -130,6 +265,42 @@ $(document).ready(function(){
 			createUserAccount(userAccount);
 		}
 	})
+	
+	$("#table_searchResults").on("click", "tr", function(){
+		
+		if(!$(this).parent().is("thead")){
+			$("#button_edit").removeClass("disabled");
+			$("#button_delete").removeClass("disabled");
+			
+			var source = this;
+			$.each($(this).parent().children(), function(index, item){			
+				if(item === source){
+					$(item).addClass("active");
+				} else {
+					$(item).removeClass("active");
+				}
+				
+			});
+		}
+		
+	});
+	
+	$(".pagination").on("click", "li", function(){
+		if(!$(this).hasClass("disabled")){
+			search($(this).data("searchvalue"), $(this).data("pagenumber"), 12);	
+		}
+	});
+	
+	$("#searchBox button").on("click", function(){
+		search($("#searchBox input").val(), 1, 12);
+	});
+	
+	$("#searchBox input").on("keypress", function(event){
+		var keyCode = event.which || event.keyCode;
+		if(keyCode == 13){
+			search($(this).val(), 1, 12);
+		}
+	});
 	
 	/**
 	 * End: Event Handlers
